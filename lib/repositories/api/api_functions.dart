@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 class Api {
-  
-
   static Future<List?> fetchNotes() async {
     const url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
     final uri = Uri.parse(url);
@@ -17,6 +14,7 @@ class Api {
       return null;
     }
   }
+
   static Future<bool> addNote(Map body) async {
     const url = 'https://api.nstack.in/v1/todos';
     final uri = Uri.parse(url);
@@ -25,7 +23,7 @@ class Api {
       body: jsonEncode(body),
       headers: {'Content-Type': 'application/json'},
     );
-    return response.statusCode == 201; 
+    return response.statusCode == 201;
   }
 
   static Future<bool> updatNote(String id, Map body) async {
@@ -38,12 +36,11 @@ class Api {
     );
     return response.statusCode == 200;
   }
+
   static Future<bool> deleteById(String id) async {
     final url = 'https://api.nstack.in/v1/todos/$id';
     final uri = Uri.parse(url);
     final response = await http.delete(uri);
     return response.statusCode == 200;
   }
-
-  
 }

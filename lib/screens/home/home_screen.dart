@@ -17,6 +17,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     context.read<HomeBloc>().add(FetchSuccessEvent());
   }
 
+  late String id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +26,8 @@ class _ScreenHomeState extends State<ScreenHome> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
-        buildWhen: (previous, current) => current is! FormNavigationState,
-        listenWhen: (previous, current) => current is FormNavigationState,
+        buildWhen: (previous, current) => current is! HomeActionState,
+        listenWhen: (previous, current) => current is HomeActionState,
         listener: (context, state) {
           if (state is FormNavigationState) {
             Navigator.push(
@@ -34,6 +35,36 @@ class _ScreenHomeState extends State<ScreenHome> {
                 MaterialPageRoute(
                   builder: (context) => const ScreenAddForm(),
                 ));
+          } else if (state is ShowPopupMessageState) {
+            showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Delete Note!!'),
+                  content: const Text(
+                    'Are you sure, do you really want to delete this note!',
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      child: const Text('Discard'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      child: const Text('Delete'),
+                      onPressed: () => delete(context, id),
+                    ),
+                  ],
+                );
+              },
+            );
           }
         },
         builder: (context, state) {
@@ -45,7 +76,7 @@ class _ScreenHomeState extends State<ScreenHome> {
               crossAxisSpacing: 8,
               children: List.generate(state.notesList.length, (index) {
                 final note = state.notesList[index] as Map;
-                // final id = note['_id'];
+                id = note['_id'];
                 return Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -69,7 +100,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                               ),
                             ),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(ShowDialogEvent());
+                                },
                                 icon: const Icon(Icons.delete))
                           ],
                         ),
@@ -100,4 +135,10 @@ class _ScreenHomeState extends State<ScreenHome> {
       ),
     );
   }
+}
+
+void delete(BuildContext context, String id) {
+  context.read<HomeBloc>().add(DeleteNoteEvent(id: id));
+  Navigator.of(context).pop();
+  context.read<HomeBloc>().add(FetchSuccessEvent());
 }

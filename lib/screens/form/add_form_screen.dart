@@ -24,7 +24,6 @@ class ScreenAddForm extends StatelessWidget {
           if (state is AddNoteSuccessState) {
             Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              
                 behavior: SnackBarBehavior.floating,
                 margin: EdgeInsets.all(10),
                 duration: Duration(seconds: 1),
@@ -33,8 +32,7 @@ class ScreenAddForm extends StatelessWidget {
                   "Data Added Successfuly!!",
                   style: TextStyle(color: Colors.white),
                 )));
-                 context.read<HomeBloc>().add(FetchSuccessEvent());
-                
+            context.read<HomeBloc>().add(FetchSuccessEvent());
           } else if (state is AddNoteErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 behavior: SnackBarBehavior.floating,
@@ -84,7 +82,7 @@ class ScreenAddForm extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        submitData(context); 
+                        submitData(context);
                       }
                     },
                     icon: const Icon(Icons.save),
@@ -116,4 +114,6 @@ void submitData(BuildContext context) {
   };
 
   context.read<AddBloc>().add(AddNoteEvent(map: map));
+  titleController.text = '';
+  descriptionController.text = '';
 }
