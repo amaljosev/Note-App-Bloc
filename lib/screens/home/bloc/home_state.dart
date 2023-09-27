@@ -20,3 +20,10 @@ final class FormNavigationState extends HomeActionState {}
 final class ShowPopupMessageState extends HomeActionState {}
 
 final class DeleteNoteMessageState extends HomeActionState {}
+
+final class UpdateNavigationState extends HomeActionState{
+  final String id;
+  final Map map;
+
+  UpdateNavigationState({required this.id, required this.map});
+}

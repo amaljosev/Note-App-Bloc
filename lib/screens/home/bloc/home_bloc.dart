@@ -12,6 +12,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<FetchSuccessEvent>(fetchDatas);
     on<ShowDialogEvent>(showDialogEvent);
     on<DeleteNoteEvent>(deleteNoteEvent);
+    on<UpdateNavigationEvent>(updateNavigation);
   }
 
   FutureOr<void> formNavigation(
@@ -39,5 +40,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> showDialogEvent(
       ShowDialogEvent event, Emitter<HomeState> emit) {
     emit(ShowPopupMessageState());
+  }
+
+  FutureOr<void> updateNavigation(
+      UpdateNavigationEvent event, Emitter<HomeState> emit) {
+    emit(UpdateNavigationState(id: event.id, map: event.map));
   }
 }

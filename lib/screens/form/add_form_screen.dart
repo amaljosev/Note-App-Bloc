@@ -112,7 +112,6 @@ void submitData(BuildContext context) {
     "description": description,
     "is_completed": false
   };
-
   context.read<AddBloc>().add(AddNoteEvent(map: map));
   titleController.text = '';
   descriptionController.text = '';

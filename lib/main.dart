@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notebloc/screens/form/add/add_bloc.dart';
+import 'package:notebloc/screens/form/edit/edit_bloc.dart';
 import 'package:notebloc/screens/home/bloc/home_bloc.dart';
 import 'package:notebloc/screens/home/home_screen.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddBloc(),
+        ),
+        BlocProvider(
+          create: (context) => EditBloc(), 
         ),
       ],
       child: MaterialApp(
