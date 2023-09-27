@@ -18,6 +18,5 @@ final class ShowDialogEvent extends HomeActionEvent {}
 final class UpdateNavigationEvent extends HomeActionEvent {
   final String id;
   final Map map;
-
   UpdateNavigationEvent({required this.id, required this.map});
 }
